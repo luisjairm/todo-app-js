@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO list</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="bg-secondary">
+   
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-black">
+        <div class="container-fluid">
+          <a class="navbar-brand text-white" href="#">TODO List</a>
+          <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active text-white" aria-current="page" href="https://twitter.com/luisjairm_" target="_blank">Twitter</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active text-white" href="https://github.com/luisjairm" target="_blank">GitHub</a>
+              </li>
+          </div>
+        </div>
+      </nav>
+
+<!-- Add item list -->
+    
+<div class="container-sm mt-3">
+    <form id="formulario" class="row gx-3 gy-2 align-items-center p-3">
+            <div class="mb-3">
+              <!-- <label for="" class="form-label">Tarea</label> -->
+              <textarea class="form-control" id="tarea" placeholder="Escriba su proxima tarea"></textarea>
+              
+            </div>
+       
+        <div class="col-auto">
+            <button type="submit" class="btn btn-success p-2">Agregar Tarea</button>
+        </div>
+      </form>
+
+      <ul class="list-group" id="list-group">
+          <!-- <li class="list-group-item d-flex justify-content-between ">
+            <strong>First checkbox  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia possimus, quos voluptatem dolore dolor impedit laboriosam nam optio vel, illo rem, harum nesciunt.</strong>
+            <button class="btn btn-outline-danger text-dark ">X</button>
+          </li> -->
+          
+      </ul>
+</div>
+
+<!-- footer -->
+   
+<footer class="text-center text-white fixed-bottom bg-black" >
+  <!-- Copyright -->
+  <div class="text-center p-3" >
+    © 2022 Copyright:
+    <a class="text-white" href="https://github.com/luisjairm" target="_blank">Luis Jair Mulato</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>
