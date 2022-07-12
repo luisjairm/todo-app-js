@@ -1,6 +1,7 @@
 // Variables
 const formulario = document.querySelector('#formulario');
 const listGroup = document.querySelector('#list-group');
+const listGroupTerminadas = document.querySelector('#list-group-terminadas');
 
 let tareas = [];
 let tareasTerminadas = [];
@@ -14,6 +15,8 @@ function eventListener() {
     // cargar la lista cuando el html este listo
     document.addEventListener('DOMContentLoaded', () => {
         tareas = JSON.parse(localStorage.getItem('tareas')) || [];
+        tareasTerminadas =
+            JSON.parse(localStorage.getItem('tareasTerminadas')) || [];
         crearHTML();
     });
 }
@@ -42,21 +45,31 @@ function validarFormulario(e) {
 }
 // agregando tarea al listgroup
 function crearHTML() {
-    limpiarHTML();
+    limpiarHTML(listGroup);
+    limpiarHTML(listGroupTerminadas);
 
+    // crea Html de tareas pendientes
     if (tareas.length > 0) {
         tareas.forEach((tarea) => {
-            // crear boton eliminar
-            const boton = document.createElement('button');
-            boton.classList.add('btn', 'btn-outline-danger', 'text-dark');
-
-            boton.textContent = 'X';
-            boton.onclick = () => {
-                eliminarTarea(tarea.id);
+            // crear boton completar
+            const btnCompletar = document.createElement('button');
+            btnCompletar.classList.add(
+                'btn',
+                'btn-outline-success',
+                'text-green',
+                'd-flex',
+                'justify-content-center',
+                'align-items-center'
+            );
+            btnCompletar.innerHTML =
+                '<ion-icon name="checkmark-done"></ion-icon>';
+            btnCompletar.onclick = () => {
+                completarTarea(tarea.id);
             };
 
-            // crear elemento strong
+            // crear elemento strong que contiene el nombre de la tarea
             const strong = document.createElement('strong');
+            strong.classList.add('d-flex', 'align-items-center');
             strong.textContent = tarea.tarea;
 
             // crear elemento li
@@ -69,22 +82,76 @@ function crearHTML() {
 
             // agrega los elemento al li y a la lista de tareas
             li.appendChild(strong);
-            li.appendChild(boton);
+            li.appendChild(btnCompletar);
             listGroup.appendChild(li);
+        });
+    }
+
+    // crea html de tareas terminadas
+    if (tareasTerminadas.length > 0) {
+        tareasTerminadas.forEach((tarea) => {
+            // crear boton eliminar
+            const btnEliminar = document.createElement('button');
+            btnEliminar.classList.add(
+                'btn',
+                'btn-outline-danger',
+                'text-red',
+                'd-flex',
+                'justify-content-center',
+                'align-items-center'
+            );
+            btnEliminar.innerHTML = '<ion-icon name="trash"></ion-icon>';
+            btnEliminar.onclick = () => {
+                eliminarTarea(tarea.id);
+            };
+
+            // crear elemento span que contiene el nombre de la tarea
+            const span = document.createElement('span');
+            span.classList.add(
+                'd-flex',
+                'align-items-center',
+                'text-decoration-line-through'
+            );
+            span.textContent = tarea.tarea;
+
+            // crear elemento li
+            const li = document.createElement('li');
+            li.classList.add(
+                'list-group-item',
+                'd-flex',
+                'justify-content-between'
+            );
+
+            // agrega los elemento al li y a la lista de tareas
+            li.appendChild(span);
+            li.appendChild(btnEliminar);
+            listGroupTerminadas.appendChild(li);
         });
     }
 
     sincronizarStorage();
 }
 
+// Sincroniza las tareas al localStorage
 function sincronizarStorage() {
     // agrega las tareas al local storage
     localStorage.setItem('tareas', JSON.stringify(tareas));
+    localStorage.setItem('tareasTerminadas', JSON.stringify(tareasTerminadas));
 }
 
-// elimina una tarea
+// marca una tarea como completada
+function completarTarea(id) {
+    let tareasPendientes = tareas.filter((tarea) => tarea.id !== id);
+    let tareasTer = tareas.filter((tarea) => tarea.id === id);
+
+    tareas = tareasPendientes;
+    tareasTerminadas = tareasTerminadas.concat(tareasTer);
+    crearHTML();
+}
+
+// Eliminar las tareas
 function eliminarTarea(id) {
-    tareas = tareas.filter((tarea) => tarea.id !== id);
+    tareasTerminadas = tareasTerminadas.filter((tarea) => tarea.id !== id);
     crearHTML();
 }
 
@@ -105,8 +172,8 @@ function mensajeError(msjError) {
 }
 
 // limipa las lista para que no se dupliquen
-function limpiarHTML() {
-    while (listGroup.firstChild) {
-        listGroup.removeChild(listGroup.firstChild);
+function limpiarHTML(list) {
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
     }
 }
